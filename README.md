@@ -8,6 +8,7 @@
 * listagem de carros
 * busca de carros
 * Autenticacao de usuario
+* paginacao
 
 
 # Tecnologias usadas
