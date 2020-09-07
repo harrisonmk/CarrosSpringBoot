@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 @SpringBootTest
 class CarrosServiceTest {
@@ -55,7 +56,7 @@ class CarrosServiceTest {
     @Test
     public void testLista() {
 
-        List<CarroDto> carros = carroService.listagemCarros();
+        List<CarroDto> carros = carroService.listagemCarros(PageRequest.of(0,30));
 
         assertEquals(30, carros.size());
 
@@ -64,11 +65,11 @@ class CarrosServiceTest {
     @Test
     public void testListaPorTipo() {
 
-        assertEquals(10, carroService.listagemCarrosporTipo("classicos").size());
-        assertEquals(10, carroService.listagemCarrosporTipo("esportivos").size());
-        assertEquals(10, carroService.listagemCarrosporTipo("luxo").size());
+        assertEquals(10, carroService.listagemCarrosporTipo("classicos",PageRequest.of(0, 10)).size());
+        assertEquals(10, carroService.listagemCarrosporTipo("esportivos",PageRequest.of(0, 10)).size());
+        assertEquals(10, carroService.listagemCarrosporTipo("luxo",PageRequest.of(0, 10)).size());
 
-        assertEquals(0, carroService.listagemCarrosporTipo("x").size());
+        assertEquals(0, carroService.listagemCarrosporTipo("x",PageRequest.of(0, 10)).size());
     }
 
     @Test

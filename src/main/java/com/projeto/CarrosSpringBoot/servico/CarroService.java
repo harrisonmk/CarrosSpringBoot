@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -18,7 +20,6 @@ public class CarroService {
     @Autowired
     private CarroRepositorio carroRepositorio;
 
-    
     //Salva um carro no banco de dados
     public CarroDto salvar(Carro carro) {
 
@@ -27,7 +28,6 @@ public class CarroService {
 
     }
 
-    
     //Metodo para editar Carro
     public CarroDto editar(Carro carro, Long id) {
 
@@ -59,42 +59,30 @@ public class CarroService {
 
     }
 
-    
     //Lista todos os carros por id
-    public List<CarroDto> listagemCarros() {
+    public List<CarroDto> listagemCarros(Pageable pageable) {
 
-        List<Carro> carros = carroRepositorio.findAll();
-
-        List<CarroDto> lista = new ArrayList<>();
-
-        for (Carro c : carros) {
-            lista.add(CarroDto.create(c));
-        }
+        List<CarroDto> lista = carroRepositorio.findAll(pageable).stream().map(CarroDto::create).collect(Collectors.toList());
 
         return lista;
 
     }
 
-    
     // Lista todos os carros por tipo
-    public List<CarroDto> listagemCarrosporTipo(String tipo) {
+    public List<CarroDto> listagemCarrosporTipo(String tipo, Pageable pageable) {
 
         //carroRepositorio.findByTipo(tipo);
-        return carroRepositorio.findByTipo(tipo).stream().map(CarroDto::create).collect(Collectors.toList()); //era new ficou create por causa do create
+        return carroRepositorio.findByTipo(tipo, pageable).stream().map(CarroDto::create).collect(Collectors.toList()); //era new ficou create por causa do create
 
     }
 
-    
-    
     //busca um carro por id
     public CarroDto buscarCarroId(Long id) {
 
-        return carroRepositorio.findById(id).map(CarroDto::create).orElseThrow(()-> new ObjectNotFoundException("Carro nao encontrado")); //mesmo que c-> new CarroDto(c);
+        return carroRepositorio.findById(id).map(CarroDto::create).orElseThrow(() -> new ObjectNotFoundException("Carro nao encontrado")); //mesmo que c-> new CarroDto(c);
 
     }
 
-    
-    
     //metodo para excluir carro por id
     public void excluir(Long id) {
 
@@ -102,4 +90,11 @@ public class CarroService {
 
     }
 
+    //Metodo para buscar de acordo com o nome do carro
+    public List<CarroDto> search(String query) {
+        return carroRepositorio.findByNomeContaining(query).stream().map(CarroDto::create).collect(Collectors.toList());
+    }
+
+    
+    
 }

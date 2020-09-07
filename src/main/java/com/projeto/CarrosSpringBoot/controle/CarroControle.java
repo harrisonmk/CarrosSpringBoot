@@ -6,6 +6,7 @@ import com.projeto.CarrosSpringBoot.servico.CarroService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -67,14 +69,16 @@ public class CarroControle {
     }
 
     
-    
-    @GetMapping
-    public ResponseEntity<List<CarroDto>> getCarros() {
+    //Metodo para listar os carros com paginacao de 10 carros por vez
+    @GetMapping()
+    public ResponseEntity<List<CarroDto>> getCarros(@RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         //return new ResponseEntity<>(carroService.listagemCarros(),HttpStatus.OK);
-        return ResponseEntity.ok(carroService.listagemCarros()); //200 ok
+        return ResponseEntity.ok(carroService.listagemCarros(PageRequest.of(page, size))); //200 ok
     }
 
+    
     
     @GetMapping("/{id}")
     public ResponseEntity getCarro(@PathVariable("id") Long id) {
@@ -88,14 +92,26 @@ public class CarroControle {
     
     
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<CarroDto>> getCarroPorTipo(@PathVariable("tipo") String tipo) {
+    public ResponseEntity<List<CarroDto>> getCarroPorTipo(@PathVariable("tipo") String tipo,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
-        List<CarroDto> carros = carroService.listagemCarrosporTipo(tipo);
+        List<CarroDto> carros = carroService.listagemCarrosporTipo(tipo, PageRequest.of(page, size));
 
         //se for vazio retorna 204 no content se nao retorna 200 ok
         return carros.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(carros);
     }
 
     
+    //http://localhost:8080/api/v1/carros/search?query=Chevrolet Corvette
+    @GetMapping("/search")
+    public ResponseEntity search(@RequestParam("query") String query) {
+        List<CarroDto> carros = carroService.search(query);
+        return carros.isEmpty()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(carros);
+    }
     
+    
+
 }

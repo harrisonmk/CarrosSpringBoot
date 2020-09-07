@@ -16,8 +16,7 @@ public class CarroDto {
     String longitude;
     String tipo;
 
-    
-  /*  public CarroDto(Carro carro) {
+    /*  public CarroDto(Carro carro) {
         
       this.id = carro.getId();
       this.nome = carro.getNome();
@@ -30,10 +29,12 @@ public class CarroDto {
         
         
     } */
-    
-     public static CarroDto create(Carro carro) {
+    public static CarroDto create(Carro carro) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(carro, CarroDto.class);
     }
+
+
+    
     
 }

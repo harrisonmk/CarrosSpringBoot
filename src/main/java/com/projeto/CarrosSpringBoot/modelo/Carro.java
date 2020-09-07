@@ -14,25 +14,25 @@ public class Carro implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     private String nome;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String descricao;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String urlFoto;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String urlVideo;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String latitude;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String longitude;
 
-    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres do nome
+    @Column(nullable = true, length = 255) //campo nao obrigatorio | tamanho de 255 caracteres 
     String tipo;
 
     
